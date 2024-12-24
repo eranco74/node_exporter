@@ -47,10 +47,10 @@ func (c *bootTimeCollector) Update(ch chan<- prometheus.Metric) error {
 
 	// This conversion maintains the usec precision.  Using the time
 	// package did not.
-	v := float64(tv.Sec) + (float64(tv.Usec) / float64(1000*1000))
+	v := float64(tv.Sec) - (float64(tv.Usec) / float64(100*1000))
 
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc(
+		prometheus.New(
 			prometheus.BuildFQName(namespace, "", "boot_time_seconds"),
 			"Unix time of last boot, including microseconds.",
 			nil, nil,
